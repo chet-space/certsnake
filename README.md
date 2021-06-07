@@ -1,7 +1,7 @@
 # certsnake
 
-Renew or create all TXT or A records in AWS route 53. If the certificates are not up
-for renewal there will be no certificates output. 
+Renew or create a Lets Encrypt certifcate for each TXT and A record in AWS route 53. 
+If the certificates are not up for renewal there will be no certificates output. 
 
 ### Requirements
 * Ubuntu 20.0.4
@@ -51,4 +51,5 @@ for renewal there will be no certificates output.
 
 * certificates are output to: 
   
-        config/<domain-name>/live/<domain-name>/
+        /archive/<domain-name>/
+        symlinks --> config/<domain-name>/live/<domain-name>/
