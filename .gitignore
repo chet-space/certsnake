@@ -1,0 +1,15 @@
+
+tmp/**
+config/**
+logs/**
+work/**
+
+#ignore python files
+__pycache__
+*.pyc
+
+#ignore bash files
+/nano.save
+
+# ignore pychamrs .idea folder
+.idea
