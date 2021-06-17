@@ -33,10 +33,10 @@ def certsnake_aws():
 def certsnake_bot(domain):
     """Calls certbot to renew domain
 
-          Parameters
-          ----------
-          domain: (str) to be renewed
-          """
+    Parameters
+    ----------
+    domain: (str) to be renewed
+    """
 
     domain_name = (domain['Name'].strip('.'))
 
@@ -51,9 +51,9 @@ def certsnake_bot(domain):
     logs_dir = os.path.join(pwd, logs_parent, domain_name)
     config_file = os.path.join(pwd, config_file)
     file = config_dir + f"/renewal/{domain_name}.conf"
-    dirs = [config_dir, work_dir, logs_dir]
 
     # Check if required directories exist. If not, create them
+    dirs = [config_dir, work_dir, logs_dir]
     for my_dir in dirs:
         if os.path.isdir(my_dir) is False:
             os.makedirs(my_dir)
@@ -65,35 +65,46 @@ def certsnake_bot(domain):
     with open(file, 'r') as file:
         for line in file.readlines():
             renewal_info.append(line.strip())
+
     # Update required lines in dict
     for index, value in enumerate(renewal_info):
         if value.startswith('archive_dir ='):
             renewal_info[index] = f"archive_dir = {config_dir}/archive/{domain_name}"
+
         elif value.startswith('cert ='):
             renewal_info[index] = f"cert = {config_dir}/live/{domain_name}/cert.pem"
+
         elif value.startswith('privkey ='):
             renewal_info[index] = f"privkey = {config_dir}/live/{domain_name}/privkey.pem"
+
         elif value.startswith('chain ='):
             renewal_info[index] = f"chain = {config_dir}/live/{domain_name}/chain.pem"
+
         elif value.startswith('fullchain ='):
             renewal_info[index] = f"fullchain = {config_dir}/live/{domain_name}/fullchain.pem"
+
         elif value.startswith('config_dir ='):
             renewal_info[index] = f"config_dir = {config_dir}"
+
         elif value.startswith('work_dir ='):
             renewal_info[index] = f"work_dir = {work_dir}"
+
         elif value.startswith('logs_dir ='):
             renewal_info[index] = f"logs_dir = {logs_dir}"
+
     # Prepare dict to be written to file by adding newlines
     renewal_info = map(lambda x: x + '\n', renewal_info)
-    file = config_dir + f"/renewal/{domain_name}.conf"
+
     # create new renewal file with updated paths
     with open(file, 'w') as file:
         file.writelines(renewal_info)
+
     # call certbot for renewal
     command = f"certbot --config-dir {config_dir}/ --logs-dir {logs_dir}/ --work-dir {work_dir}/ " \
               f"certonly --dns-route53 -d {domain_name} --agree-tos -n -c {config_file} " \
               f"--user-agent ''"
 
+    # print stderr and stdout to terminal
     comp_process = subprocess.run(args=['bash', '-c', command], stdout=PIPE, stderr=PIPE)
     pprint(comp_process.stderr)
     pprint(comp_process.stdout)
