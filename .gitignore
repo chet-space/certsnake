@@ -1,5 +1,5 @@
 
-tmp/**
+venv/**
 config/**
 logs/**
 work/**
