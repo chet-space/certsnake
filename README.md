@@ -1,6 +1,6 @@
 # certsnake
 
-Renew or create a Lets Encrypt certifcate for each TXT and A record in AWS route 53. 
+Renew or create a Lets Encrypt certifcate for each CNAME and A record in AWS route 53. 
 If the certificates are not up for renewal there will be no certificates output. 
 
 ### Requirements
