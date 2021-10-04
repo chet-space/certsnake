@@ -32,7 +32,10 @@ def certsnake_aws():
 def certsnake_bot(domain):
     """Calls certbot to renew domain"""
     domain_name = (domain['Name'].strip('.'))
-
+    # split the hostname and check if it's \052 (ASCII). If it is convert to *
+    hostname = domain_name.split('.', 1)
+    if hostname[0] == r'\052':
+        domain_name = "*." + hostname[1]
     # setup local os paths
     pwd = os.path.dirname(os.path.abspath(__file__))
     config_file = "cli.ini"
